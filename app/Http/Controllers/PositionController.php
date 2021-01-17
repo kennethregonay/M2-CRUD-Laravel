@@ -2,84 +2,48 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PositionResource;
+use App\Http\Resources\PositionResourceCollection;
 use App\Position;
 use Illuminate\Http\Request;
 
 class PositionController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+        // show / fetch 1 record from the db.
+    public function show (Position $position):PositionResource
+   {
+    return new PositionResource($position);
+   }
+
+   //show all data from the database
+    public function index ():PositionResourceCollection
     {
-        //
+        return new PositionResourceCollection(Position::paginate());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+      //create a new record
+   public function store(Request $request)
+   {
+        $request->validate([
+            'Position_Name' => 'required',
+            'Department_Code' => 'required',
+        ]);
+          $position = Position::create($request->all());  
+            return new PositionResource($position);
+   }
+  
+   // update a new record credentials
+   public function update (Position $position,Request $request):PositionResource
+   {
+        $position->update($request->all());
+        return new PositionResource ($position);
+   }    
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Position $position)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Position $position)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Position $position)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Position  $position
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Position $position)
-    {
-        //
-    }
+   
+   //delete a record
+   public function destroy (Position $position)
+   {
+        $position->delete();
+        return response()->json();
+   }
 }

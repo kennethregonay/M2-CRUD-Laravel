@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//Restful CRUD API for the Employee Table
 Route::apiResource('/employee', 'EmployeeController');
-
+//Restful CRUD API for the Department Table
 Route::apiResource('/department', 'DepartmentController');
+//Restful CRUD API for the Position Table
+Route::apiResource('/position','PositionController');
