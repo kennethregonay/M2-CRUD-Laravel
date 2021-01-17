@@ -16,6 +16,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-//Route::get('/employee/{employee}','EmployeeController@show');
-
 Route::apiResource('/employee', 'EmployeeController');
+
+Route::apiResource('/department', 'DepartmentController');
