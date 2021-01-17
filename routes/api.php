@@ -1,5 +1,6 @@
 <?php
 
+use App\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,16 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::get('/person', function(){
-    $person = [
-        'fname' => 'Kenneth',
-        'lname' => 'Regonay',
-    ];
+//Route::get('/employee/{employee}','EmployeeController@show');
 
-    return $person;
-
-});
+Route::apiResource('/employee', 'EmployeeController');

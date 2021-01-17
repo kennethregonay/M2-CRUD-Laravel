@@ -3,83 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Http\Resources\EmployeeResource;
+use App\Http\Resources\EmployeeResourceCollection;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+    /*
+        @param Employee $employee
+        @return EmployeeResource
+    */
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+    // application manipulator
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    // show a 1 data from the database.
+    public function show (Employee $employee):EmployeeResource
     {
-        //
+        return new EmployeeResource($employee);   
     }
+    //show all data from the database.
+   public function index():EmployeeResourceCollection
+   {
+       return new EmployeeResourceCollection(Employee::paginate());
+   }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Employee $employee)
-    {
-        //
-    }
+   //create a new record
+   public function store(Request $request)
+   {
+        $request->validate([
+            'Firstname' => 'required',
+            'Lastname' => 'required',
+            'Middlename' => 'required',
+            'Address' => 'required',
+            'Gender' => 'required',
+            'Birthdate' => 'required',
+            'Position_Code' => 'required',
+        ]);
+          $employee = Employee::create($request->all());  
+            return new EmployeeResource($employee);
+   }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Employee $employee)
-    {
-        //
-    }
+   // update a new record credentials
+   public function update (Employee $employee,Request $request):EmployeeResource
+   {
+        $employee->update($request->all());
+        return new EmployeeResource ($employee);
+   }    
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Employee $employee)
-    {
-        //
-    }
+   //delete a record
+   public function destroy (Employee $employee)
+   {
+        $employee->delete();
+        return response()->json();
+   }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Employee  $employee
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Employee $employee)
-    {
-        //
-    }
 }
