@@ -1,6 +1,7 @@
 <?php
 
 use App\Employee;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

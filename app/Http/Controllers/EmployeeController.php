@@ -57,4 +57,8 @@ class EmployeeController extends Controller
         return response()->json();
    }
 
+   public function showall (){
+    $employee = Employee::paginate(10);
+    return EmployeeResource::collection($employee);
+   }
 }
